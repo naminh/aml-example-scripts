@@ -1,0 +1,4 @@
+name: "endpoint"
+description: ""
+auth_mode: key
+public_network_access: disabled

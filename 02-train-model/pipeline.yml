@@ -1,0 +1,33 @@
+type: pipeline
+description: ""
+
+inputs:
+  input:
+    type: uri_file
+    path: azureml:UPLOAD_DATA_NAME@latest
+  train_epoch_param: 5
+
+outputs:
+  train_data:
+  test_data:
+  trained_model:
+  evaluation_output:
+
+settings:
+  default_datastore: azureml:workspaceblobstore
+  default_compute: azureml:mlclusterdev
+
+jobs:
+  prep_data:
+    name: prep_data
+    display_name: prep_data
+    code: ./src
+    command: >-
+      python prep.py
+      --raw_data ${{inputs.raw_data}}
+    environment: azureml:env@latest
+    inputs:
+      raw_data: ${{parent.inputs.input}}
+    outputs:
+      train_data: ${{parent.outputs.train_data}}
+      test_data: ${{parent.outputs.test_data}}

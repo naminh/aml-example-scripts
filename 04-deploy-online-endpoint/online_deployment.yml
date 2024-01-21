@@ -1,0 +1,8 @@
+model: azureml:NAME@latest
+instance_type: Standard_DS2_v2
+instance_count: 1
+egress_public_network_access: disabled
+code_configuration:
+  code: /src
+  scoring_scipt: score.py
+environment: azureml:NAME:1
