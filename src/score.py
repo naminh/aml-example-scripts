@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+
 import joblib
 import pandas as pd
 
@@ -10,6 +11,7 @@ def init():
     model_path = os.path.join(os.getenv("AZUREML_MODEL_DIR"), "model")
     model = joblib.load(model_path)
     logging.info("Init complete")
+
 
 def run(raw_data):
     """

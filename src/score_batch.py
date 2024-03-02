@@ -14,6 +14,7 @@ def init():
     model = joblib.load(model_path)
     logging.info("Init complete")
 
+
 def run(mini_batch: List[str]):
     logging.info("Invoke request received...")
 
