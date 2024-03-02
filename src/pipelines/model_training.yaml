@@ -1,0 +1,57 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
+type: pipeline
+experiment_name: training_pipeline
+description: ML Training Pipeline
+
+# <inputs_and_outputs>
+inputs:
+  input_csv:
+    type: uri_file
+    path: azureml:<>:1
+  random_state:
+    type: integer
+  predictor_cols:
+    type: string
+  target_col:
+    type: string
+  registered_model_name:
+    type: string
+
+outputs:
+  train_data:
+    type: uri_folder
+  test_data:
+    type: uri_folder
+  model:
+    type: uri_folder
+# </inputs_and_outputs>
+
+# <jobs>
+# settings:
+#   default_datastore: azureml:workspaceblobstore
+#   default_compute: azureml:cpu-cluster
+#   continue_on_step_failure: false
+
+jobs:
+  data_prep:
+    type: command
+    component: ../components/data_prep/data_prep.yaml
+    inputs:
+      input_csv: ${{parent.inputs.input_csv}}
+    outputs:
+      train_data: ${{parent.outputs.train_data}}
+      test_data: ${{parent.outputs.test_data}}
+
+  train_model:
+    type: command
+    component: ../components/train/train.yaml
+    inputs:
+      train_data: ${{parent.jobs.data_prep.outputs.train_data}}
+      test_data: ${{parent.jobs.data_prep.outputs.test_data}}
+      predictor_cols: ${{parent.inputs.predictor_cols}}
+      target_col: ${{parent.inputs.target_col}}
+      random_state: ${{parent.inputs.random_state}}
+    outputs:
+      model: ${{parent.outputs.model}}
+
+# </jobs>

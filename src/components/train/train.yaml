@@ -1,0 +1,33 @@
+# <component>
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: train_sklearn_logreg
+display_name: Train sklearn logistic regression model
+# version: 1 # Not specifying a version will automatically update the version
+type: command
+inputs:
+  train_data: 
+    type: uri_folder
+  test_data: 
+    type: uri_folder
+  predictor_cols:
+    type: string 
+  target_col:
+    type: string        
+  random_state:
+    type: integer
+outputs:
+  model:
+    type: uri_folder
+code: .
+environment:
+  # for this step, we'll use an AzureML curate environment
+  azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu@latest
+command: >-
+  python train.py
+  --train_data ${{inputs.train_data}} 
+  --test_data ${{inputs.test_data}} 
+  --predictor_cols ${{inputs.predictor_cols}}
+  --target_col ${{inputs.target_col}}
+  --random_state ${{inputs.random_state}}
+  --model ${{outputs.model}}
+# </component>

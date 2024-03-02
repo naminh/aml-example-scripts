@@ -1,0 +1,71 @@
+# AZURE
+subscription_id: ""
+resource_group: ""
+workspace: ""
+mlflow_uri: ""
+
+# AML
+datastore:
+  name: ""
+  workspace: 
+    name: "workspaceblobstore"
+
+data:
+  training:
+    name: 
+    description: ""
+    version: "1"
+    path: "../data/training_data_sample.csv"
+
+environment:
+  conda:
+    name: 
+    description: 
+    version: 1
+    image: "mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04:latest"
+    conda_file: "../environment/conda_env/conda.yaml"
+
+model:
+  name: 
+  description: ""
+  path: "../models/" # relative to load file
+  local_dev_path: "../models/"
+  version: 1
+  target_col: ""
+  compute:
+    name: datascience-cluster
+
+batch_endpoint:
+  name: 
+  description: "batch classifier endpoint"
+  deployment:
+    name: deployment
+    description: "model batch deployment"
+    instance_count: 1
+    max_concurrency_per_instance: 2
+    mini_batch_size: 1
+    output_file_name: predictions.csv
+    logging_level: info
+  environment:
+    name: 
+    description: project environment
+    build_path:
+    version: 1
+  compute:
+    name:
+
+online_endpoint:
+  name: 
+  description: ""
+  auth_mode: key
+  deployment:
+    name: 
+    description: ""
+    instance_type: Standard_DS3_v2 #Standard_F2s_v2
+    instance_count: 1
+  environment:
+    name: 
+    description: 
+    version: 1
+    image: "mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04:latest"
+    conda_file: "../environment/conda_env/conda.yaml"

@@ -1,0 +1,24 @@
+# <component>
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: data_prep
+display_name: 
+# version: 1 # Not specifying a version will automatically update the version
+type: command
+inputs:
+  input_csv: 
+    type: uri_file
+outputs:
+  train_data:
+    type: uri_folder
+  test_data:
+    type: uri_folder
+code: .
+environment:
+  # for this step, we'll use an AzureML curate environment
+  azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu@latest
+command: >-
+  python data_prep.py
+  --input_csv ${{inputs.input_csv}} 
+  --train_data ${{outputs.train_data}}
+  --test_data ${{outputs.test_data}}
+# </component>

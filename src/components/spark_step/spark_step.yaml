@@ -1,0 +1,27 @@
+$schema: https://azuremlschemas.azureedge.net/latest/sparkComponent.schema.json
+name: spark_component
+type: spark
+display_name: Spark step component
+inputs:
+  input_uri:
+    type: uri_file
+    mode: direct
+  index_col:
+    type: string
+outputs:
+  output:
+    type: uri_folder
+    mode: direct
+code: .
+entry:
+  file: spark_step.py # file path of the entry file relative to the code root folder
+args: >-
+  --input_uri ${{inputs.input_uri}}
+  --index_col ${{inputs.index_col}}
+  --output ${{outputs.output}}
+conf:
+  spark.driver.cores: 1
+  spark.driver.memory: "1g"
+  spark.executor.cores: 1
+  spark.executor.memory: "1g"
+  spark.executor.instances: 1
